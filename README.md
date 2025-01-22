@@ -15,6 +15,8 @@ The raw data can be found at [IEMOCAP](https://sail.usc.edu/iemocap/ "IEMOCAP") 
 
 In our paper, we use pre-extracted features. The multimodal features are available at [IEMOCAP]() and [MELD]().
 
+###### Due to anonymity restrictions, we will provide it at a later time.
+
 ### Pretrained T5 Download
 
 Before starting, make sure to download the parameters of the [T5-base](https://huggingface.co/google-t5/t5-base) pre-trained model into the `pretrained_model` directory.
@@ -38,6 +40,8 @@ python main.py -backbone ./pretrained_model -run_type train -dataset meld -use_g
 ### Predict and Checkpoints
 
 We provide the pre-trained checkpoint on IEMOCAP at [here](), and the checkpoint on MELD at [here]().
+
+###### Due to anonymity restrictions, we will provide it at a later time.
 
 To predict on IEMOCAP:
 
