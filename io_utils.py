@@ -26,14 +26,11 @@ def load_json(load_path, lower=True):
 def get_or_create_logger(logger_name=None, log_dir=None):
     logger = logging.getLogger(logger_name)
 
-    # check whether handler exists
     if len(logger.handlers) > 0:
         return logger
 
-    # set default logging level
     logger.setLevel(logging.DEBUG)
 
-    # define formatters
     stream_formatter = logging.Formatter(
         fmt="%(asctime)s  [%(levelname)s] %(message)s",
         datefmt="%m/%d/%Y %H:%M:%S")
@@ -42,7 +39,6 @@ def get_or_create_logger(logger_name=None, log_dir=None):
         fmt="%(asctime)s  [%(levelname)s] %(module)s; %(message)s",
         datefmt="%m/%d/%Y %H:%M:%S")
 
-    # define and add handler
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(logging.INFO)
     stream_handler.setFormatter(stream_formatter)
