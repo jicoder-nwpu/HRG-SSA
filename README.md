@@ -7,7 +7,7 @@ The code will be updated soon.
 ##### IEMOCAP
 
 ```bash
-python main.py -backbone ./pretrained_model -run_type train -dataset iemocap -use_gat -window_size 8 -emotion_first -use_video_mode -use_audio_mode
+python main.py -backbone ./pretrained_model -run_type train -dataset iemocap -use_gat -window_size 8 -gat 1 -emotion_first -use_video_mode -use_audio_mode
 ```
 
 ##### MELD
