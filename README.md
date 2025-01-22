@@ -13,7 +13,7 @@ pip install -r requirements.txt
 
 The raw data can be found at [IEMOCAP](https://sail.usc.edu/iemocap/ "IEMOCAP") and [MELD](https://github.com/SenticNet/MELD "MELD").
 
-In our paper, we use pre-extracted features. The multimodal features are available at [IEMOCAP](https://drive.google.com/drive/folders/1I5uNGOHMTvA6KdzATYmu7P8Z4Ihce6Mi?usp=drive_link) and [MELD](https://drive.google.com/drive/folders/1rtJ8pMbkPIzZEPzZH1-QWrY2yeSRGhki?usp=drive_link).
+In our paper, we use pre-extracted features. The multimodal features are available at [IEMOCAP]() and [MELD]().
 
 ### Pretrained T5 Download
 
@@ -37,7 +37,7 @@ python main.py -backbone ./pretrained_model -run_type train -dataset meld -use_g
 
 ### Predict and Checkpoints
 
-We provide the pre-trained checkpoint on IEMOCAP at [here](https://drive.google.com/drive/folders/1a9VD-r0UyeGUsJFHEIMfCtWtB1L6X3QU?usp=drive_link), and the checkpoint on MELD at [here](https://drive.google.com/drive/folders/1mdABgy7Zy5RSJTw5jFr_zzI5cuVYKGsV?usp=drive_link).
+We provide the pre-trained checkpoint on IEMOCAP at [here](), and the checkpoint on MELD at [here]().
 
 To predict on IEMOCAP:
 
