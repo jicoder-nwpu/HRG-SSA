@@ -59,7 +59,6 @@ class BaseRunner():
 
         model.save_pretrained(save_path)
 
-        # keep chekpoint up to maximum
         checkpoints = sorted(
             glob.glob(os.path.join(self.cfg.model_dir, "ckpt-*")),
             key=os.path.getmtime,
@@ -67,7 +66,6 @@ class BaseRunner():
 
         checkpoints_to_be_deleted = checkpoints[self.cfg.max_to_keep_ckpt:]
 
-        #force remove checkpoint-dirs
         for ckpt in checkpoints_to_be_deleted:
             shutil.rmtree(ckpt)
 
@@ -80,7 +78,6 @@ class BaseRunner():
         if self.cfg.warmup_steps >= 0:
             num_warmup_steps = self.cfg.warmup_steps
         else:
-            #num_warmup_steps = int(num_train_steps * 0.2)
             num_warmup_steps = int(num_train_steps * warmup_ratio)
 
         self.logger.info("Total training steps = {}, warmup steps = {}".format(
@@ -89,10 +86,7 @@ class BaseRunner():
         if is_freeze:
             for name, param in self.model.named_parameters():
                 if 'layer.4' not in name and 'layer.3' not in name and '_encoder' not in name and 'gat' not in name and '_mapping' not in name:
-                # if 'gat' not in name:
                     param.requires_grad = False
-                # if self.cfg.dataset == 'mosei' and 'encoder' in name:
-                #     param.requires_grad = True
                 else:
                     param.requires_grad = True
         else:
@@ -111,7 +105,6 @@ class BaseRunner():
 
         return optimizer, scheduler
 
-    #statistic pred tokens of labels
     def count_tokens(self, pred, label, pad_id):
         pred = pred.view(-1)
         label = label.view(-1)
@@ -157,9 +150,6 @@ class BaseRunner():
             eos_embedding.append(eos)
         bos_embedding = torch.stack(bos_embedding)
         eos_embedding = torch.stack(eos_embedding)
-        # for i in range(len(features)):
-            # if isinstance(features[i], numpy.ndarray) or features[i].device.type == 'cpu':
-            #     features[i] = torch.tensor(features[i], dtype=torch.float).to(self.cfg.device)
         features = torch.cat((features, eos_embedding), dim=1)
         features = torch.cat((bos_embedding, features), dim=1)
         return features
@@ -258,19 +248,15 @@ class BaseRunner():
             if predict_history is None:
                 text_history = batch[i]['text_history']
             else:
-                # text_history = copy.deepcopy(predict_history[i])
                 text_history = batch[i]['text_history']
                 if len(text_history) > 1:
                     text_history[-2] = predict_history[i][-1]
-                # text_history.append(batch[i]['text_history'][-1])
             if predict_emotion_history is None:
                 emotion_history = batch[i]['dia_emotion_forecast']
             else:
-                # emotion_history = copy.deepcopy(predict_emotion_history[i])
                 emotion_history = batch[i]['dia_emotion_forecast']
                 if len(emotion_history) > 1:
                     emotion_history[-2] = predict_emotion_history[i][-1]
-                # emotion_history.append(self.reader.encode_text(batch[i]['speaker'] + ": undetermined & undetermined", self.reader.bos_token, self.reader.eos_token))
             emotion_text.append(emotion_history)
             text_text.append(text_history)
             g = batch[i]['g']
@@ -344,7 +330,6 @@ class BaseRunner():
         
         past_states = []
         for j in range(node_num):
-            # emotion_text_features, emotion_text_masks, emotion_index, emotion_eos_indx = past_states[j]
             cur_text = []
             cur_index = []
             text_eos_indx = []
@@ -395,7 +380,7 @@ class BaseRunner():
 
             batch_audio_edges = []
             for i in range(len(batch)):
-                batch_audio_features[i] = torch.stack(batch_audio_features[i])   #看一下 gat输入 形式 再定
+                batch_audio_features[i] = torch.stack(batch_audio_features[i])
 
                 if not self.cfg.no_use_relation and len(batch[i]['audio_history']) > 2:
                     edge_index1=torch.LongTensor(batch_adj_matrix[i]).transpose(0,1)
@@ -514,36 +499,6 @@ class BaseRunner():
             adjacency_matrix[a][b] = 1
         adjacency_matrix = adjacency_matrix.to(self.cfg.device)
         return adjacency_matrix
-    
-    def graph_regularization_loss(self, embeddings, adjacency_matrix):
-        """
-        计算图正则化损失。
-        
-        Args:
-            embeddings (torch.Tensor): 节点嵌入矩阵 (N x d)，N 是节点数量，d 是嵌入维度。
-            adjacency_matrix (torch.Tensor): 邻接矩阵 (N x N)。
-        
-        Returns:
-            torch.Tensor: 图正则化损失值。
-        """
-        # 计算度矩阵 D
-        degree_matrix = torch.diag(adjacency_matrix.sum(dim=1))
-        
-        # 计算图拉普拉斯矩阵 L = D - A
-        laplacian_matrix = degree_matrix - adjacency_matrix
-
-        embeddings = embeddings / (torch.norm(embeddings, dim=1, keepdim=True) + 1e-6)
-        
-        # 转置节点嵌入 H^T
-        embeddings_transpose = embeddings.T  # (d x N)
-        
-        # 计算损失值：Tr(H^T L H)
-        loss = torch.trace(embeddings_transpose @ laplacian_matrix @ embeddings)
-
-        loss = loss / (embeddings.size(0) * embeddings.size(1))
-        loss = torch.log(1 + torch.exp(loss))
-        
-        return loss
 
     def similarity(self, x, y, t=1.0):
         return F.cosine_similarity(x, y, dim=-1) / t
@@ -582,26 +537,20 @@ class BaseRunner():
             
             cur_features = torch.cat([cur_audio, cur_video], dim=0)
             
-            # 计算相似度矩阵，所有特征两两对比
             sim_matrix = torch.exp(self.similarity(cur_features.unsqueeze(1), cur_features.unsqueeze(0)))
             
-            # 构建mask，避免与自身对比
             mask = torch.eye(2 * windows_size, device=cur_features.device).bool()
             sim_matrix = sim_matrix.masked_fill(mask, 0)
 
-            # 计算分母（排除当前对比）
             distances = sim_matrix.sum(dim=1)
             
-            # 获取正样本的索引
             positive_indices = torch.cat(
                 [torch.arange(windows_size, 2 * windows_size, device=cur_features.device),
                 torch.arange(0, windows_size, device=cur_features.device)]
             )
             
-            # 正样本的相似度
             positive_sim = sim_matrix[torch.arange(2 * windows_size, device=cur_features.device), positive_indices]
 
-            # 计算loss
             loss += -torch.log(positive_sim / distances).sum()
         
         return loss / batch_size
@@ -973,5 +922,4 @@ class BaseRunner():
         except Exception:
             print('exception')
 
-        # self.logger.info("Correct_count " + str(emotion_correct_count / len(predict_res) * 100) + " " + str(sentiment_correct_count / len(predict_res) * 100))
         self.logger.info(scores)

@@ -75,7 +75,6 @@ def check_config(parser):
     if cfg.run_type == "predict" and cfg.ckpt is None:
         raise ValueError("To predict output, set ckpt to run.")
 
-    # update arguments for consistency with checkpoint model
     ckpt_path = cfg.ckpt or cfg.train_from
     if ckpt_path is not None:
         ckpt_dir = os.path.dirname(os.path.abspath(ckpt_path))

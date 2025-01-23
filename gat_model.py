@@ -185,7 +185,7 @@ class GATLayer(torch.nn.Module):
 
     def neighborhood_aware_softmax(self, scores_per_edge, trg_index, num_of_nodes):
         scores_per_edge = scores_per_edge - scores_per_edge.max()
-        exp_scores_per_edge = scores_per_edge.exp()  # softmax
+        exp_scores_per_edge = scores_per_edge.exp()
 
         neigborhood_aware_denominator = self.sum_edge_scores_neighborhood_aware(exp_scores_per_edge, trg_index, num_of_nodes)
 

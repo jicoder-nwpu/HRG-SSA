@@ -60,11 +60,6 @@ class MeldPreprocess():
                 command = self.ffmpeg_cmd(self.test_path, self.test_wav_path, file)
                 os.system(command)
         
-    '''
-    首先安装ffmpeg
-    sudo apt update
-    sudo apt install ffmpeg
-    '''
     def ffmpeg_cmd(self, pa_path, root_path, file):
         filename = file.split('.')[0] + '.wav'
         filename = os.path.join(root_path, filename)
@@ -89,7 +84,6 @@ class MeldPreprocess():
         return "In the last round of the above dialogue, the speaker " + speaker + "'s sentiment is <bos_sentiment> " + sentiment + " <eos_sentiment>, and the emotion is <bos_emotion> " + emotion + " <eos_emotion>."
 
     def csv_2_json(self, json_file, sent_emo, data_type):
-        # if not os.path.exists(json_file):
         data = {}
         with open(sent_emo, 'r') as fin:
             reader = fin.readlines()

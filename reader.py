@@ -165,7 +165,6 @@ class Reader():
         max_len = 0
         for seq in batch:
             max_len = max(max_len, len(seq))
-        # 在这里实现数据的截断和填充
         def pad_sequence(seq, max_len):
             if len(seq) > max_length:
                 return torch.tensor([3] + list(seq)[-max_length + 1:])
@@ -254,7 +253,7 @@ class MELDReader(Reader):
                         enc['audio_feature'] = audio_features[feature_key + fix]
                     if feature_key in video_features:
                         enc['video_feature'] = video_features[feature_key]
-                    enc['audio_history'].append(enc['audio_feature'])      #全部的audio特征，包括当前轮次
+                    enc['audio_history'].append(enc['audio_feature'])
                     enc['video_history'].append(enc['video_feature'])
                     enc['speaker'] = utt['speaker']
                     pre_users.append(utt['speaker'])
@@ -415,7 +414,7 @@ class IEMOCAPReader(Reader):
                     fix = ('_' + self.audio_encoder) if 'hubert' in self.audio_encoder else ''
                     enc['audio_feature'] = audio_features[feature_key + fix]
                     enc['video_feature'] = video_features[feature_key]
-                    enc['audio_history'].append(enc['audio_feature'])      #全部的audio特征，包括当前轮次
+                    enc['audio_history'].append(enc['audio_feature'])
                     enc['video_history'].append(enc['video_feature'])
                     enc['speaker'] = utt['speaker']
                     pre_users.append(utt['speaker'])
