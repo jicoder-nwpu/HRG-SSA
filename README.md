@@ -46,8 +46,6 @@ python main.py -backbone ./pretrained_model -run_type train -dataset meld -use_g
 
 We provide the pre-trained checkpoint on IEMOCAP at [here](https://drive.google.com/drive/folders/1a9VD-r0UyeGUsJFHEIMfCtWtB1L6X3QU?usp=drive_link), and the checkpoint on MELD at [here](https://drive.google.com/drive/folders/1mdABgy7Zy5RSJTw5jFr_zzI5cuVYKGsV?usp=drive_link).
 
-###### Due to anonymity restrictions, we will provide it at a later time.
-
 To predict on IEMOCAP:
 
 ```bash
