@@ -18,8 +18,6 @@ The raw data can be found at [IEMOCAP](https://sail.usc.edu/iemocap/ "IEMOCAP") 
 
 In our paper, we use pre-extracted features. The multimodal features are available at [IEMOCAP](https://drive.google.com/drive/folders/1I5uNGOHMTvA6KdzATYmu7P8Z4Ihce6Mi?usp=drive_link) and [MELD](https://drive.google.com/drive/folders/1rtJ8pMbkPIzZEPzZH1-QWrY2yeSRGhki?usp=drive_link).
 
-###### Due to anonymity restrictions, we will provide it at a later time.
-
 ###  Results on IEMOCAP and MELD
 
 ![Results on IEMOCAP and MELD](./assets/results.png)
