@@ -1,7 +1,10 @@
 # Hybrid Relational Graphs with Sentiment-laden Semantic Alignment for Multimodal Emotion Recognition in Conversation
 
-
 Pytorch implementation for the paper: [Hybrid Relational Graphs with Sentiment-laden Semantic Alignment for Multimodal Emotion Recognition in Conversation]
+
+### Framework
+
+.[Illustration of HRG-SSA framework](./framework.png)
 
 ### Requirements
 
@@ -16,6 +19,10 @@ The raw data can be found at [IEMOCAP](https://sail.usc.edu/iemocap/ "IEMOCAP") 
 In our paper, we use pre-extracted features. The multimodal features are available at [IEMOCAP]() and [MELD]().
 
 ###### Due to anonymity restrictions, we will provide it at a later time.
+
+###  Results on IEMOCAP and MELD
+
+.[Results on IEMOCAP and MELD](./results.png)
 
 ### Pretrained T5 Download
 
