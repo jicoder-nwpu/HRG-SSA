@@ -4,7 +4,7 @@ Pytorch implementation for the paper: [Hybrid Relational Graphs with Sentiment-l
 
 ### Framework
 
-.[Illustration of HRG-SSA framework](https://github.com/jicoder-nwpu/HRG-SSA/blob/main/assets/framework.png)
+![Illustration of HRG-SSA framework](./assets/framework.png)
 
 ### Requirements
 
@@ -22,7 +22,7 @@ In our paper, we use pre-extracted features. The multimodal features are availab
 
 ###  Results on IEMOCAP and MELD
 
-.[Results on IEMOCAP and MELD](https://github.com/jicoder-nwpu/HRG-SSA/blob/main/assets/results.png)
+![Results on IEMOCAP and MELD](./assets/results.png)
 
 ### Pretrained T5 Download
 
